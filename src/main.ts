@@ -10,9 +10,10 @@ async function main(): Promise<void> {
     // 1. Run database migrations
     await initDatabase();
 
-    // 2. Start indexer daemons (one per network)
+    // 2. Start indexer daemons
     startIndexer('testnet');
-    startIndexer('mainnet');
+    // TODO: Enable mainnet indexer on March 17 launch
+    // startIndexer('mainnet');
 
     // 3. Start API server
     await startApiServer();
