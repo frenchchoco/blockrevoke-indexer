@@ -1,0 +1,30 @@
+{
+  "name": "blockrevoke-indexer",
+  "version": "1.0.0",
+  "type": "module",
+  "engines": {
+    "node": ">=24.0.0"
+  },
+  "scripts": {
+    "build": "tsc",
+    "start": "node dist/main.js",
+    "dev": "tsx src/main.ts",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "opnet": "^1.8.1-rc.19",
+    "@btc-vision/transaction": "^1.8.0-rc.10",
+    "@btc-vision/bitcoin": "^7.0.0-rc.6",
+    "fastify": "^5.0.0",
+    "@fastify/cors": "^10.0.0",
+    "@fastify/rate-limit": "^10.0.0",
+    "pg": "^8.13.0",
+    "dotenv": "^16.4.0"
+  },
+  "devDependencies": {
+    "typescript": "^5.9.0",
+    "tsx": "^4.19.0",
+    "@types/pg": "^8.11.0",
+    "@types/node": "^22.0.0"
+  }
+}
