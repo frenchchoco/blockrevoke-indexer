@@ -23,11 +23,14 @@ systemctl start postgresql
 
 # Create database and user
 echo "[3/6] Setting up database..."
-sudo -u postgres psql <<'SQL'
-CREATE USER blockrevoke WITH PASSWORD 'CHANGE_THIS_PASSWORD';
-CREATE DATABASE blockrevoke_db OWNER blockrevoke;
-GRANT ALL PRIVILEGES ON DATABASE blockrevoke_db TO blockrevoke;
-SQL
+DB_PASS=$(openssl rand -base64 24 | tr -d '/+=')
+sudo -u postgres psql -c "CREATE USER blockrevoke WITH PASSWORD '${DB_PASS}';"
+sudo -u postgres psql -c "CREATE DATABASE blockrevoke_db OWNER blockrevoke;"
+sudo -u postgres psql -c "GRANT ALL PRIVILEGES ON DATABASE blockrevoke_db TO blockrevoke;"
+echo ""
+echo "Generated DB password: ${DB_PASS}"
+echo "Save this password and update /opt/blockrevoke-indexer/.env"
+echo ""
 
 # ── 4. PM2 ──
 echo "[4/6] Installing PM2..."

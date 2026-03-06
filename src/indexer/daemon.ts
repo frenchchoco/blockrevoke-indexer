@@ -32,9 +32,19 @@ export function startIndexer(networkId: NetworkId): void {
 
     logger.info(`Indexer started for ${config.name}`, { rpcUrl: config.rpcUrl });
 
-    scanLoop(networkId, provider).catch((err) => {
+    (async (): Promise<void> => {
+        while (!shuttingDown) {
+            try {
+                await scanLoop(networkId, provider);
+            } catch (err: unknown) {
+                const msg = err instanceof Error ? err.message : String(err);
+                logger.fatal(`[${networkId}] Scan loop crashed, restarting in 30s`, { error: msg });
+                await delay(30_000);
+            }
+        }
+    })().catch((err) => {
         const msg = err instanceof Error ? err.message : String(err);
-        logger.fatal(`[${networkId}] Scan loop crashed fatally`, { error: msg });
+        logger.fatal(`[${networkId}] Fatal crash in self-healing wrapper`, { error: msg });
     });
 }
 

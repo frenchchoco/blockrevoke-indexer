@@ -9,10 +9,6 @@ export async function healthRoutes(fastify: FastifyInstance): Promise<void> {
         return {
             status: 'ok',
             uptime: Math.floor(process.uptime()),
-            memory: {
-                rss: Math.floor(process.memoryUsage().rss / 1024 / 1024),
-                heapUsed: Math.floor(process.memoryUsage().heapUsed / 1024 / 1024),
-            },
             networks: {
                 testnet: { lastIndexedBlock: testnet.lastBlock },
                 mainnet: { lastIndexedBlock: mainnet.lastBlock },

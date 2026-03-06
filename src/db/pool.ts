@@ -5,6 +5,9 @@ import { logger } from '../shared/logger.js';
 const pool = new pg.Pool({
     connectionString: env.databaseUrl,
     max: env.pgPoolMax,
+    connectionTimeoutMillis: 5_000,
+    idleTimeoutMillis: 30_000,
+    statement_timeout: 10_000,
 });
 
 pool.on('error', (err) => {

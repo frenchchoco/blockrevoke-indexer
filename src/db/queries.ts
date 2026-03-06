@@ -51,7 +51,8 @@ export async function getEventsByOwner(network: NetworkId, owner: string): Promi
         `SELECT token, spender, owner, allowance, block_number AS block, tx_hash AS "txHash"
          FROM approved_events
          WHERE network = $1 AND LOWER(owner) = LOWER($2)
-         ORDER BY block_number ASC`,
+         ORDER BY block_number ASC
+         LIMIT 5000`,
         [network, owner],
     );
     return result.rows.map((row: Record<string, unknown>) => ({

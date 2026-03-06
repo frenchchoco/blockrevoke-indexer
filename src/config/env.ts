@@ -2,7 +2,11 @@ import 'dotenv/config';
 
 export const env = {
     // Database
-    databaseUrl: process.env.DATABASE_URL ?? 'postgresql://blockrevoke:blockrevoke@localhost:5432/blockrevoke_db',
+    databaseUrl: (() => {
+        const url = process.env.DATABASE_URL;
+        if (!url) throw new Error('DATABASE_URL environment variable is required');
+        return url;
+    })(),
     pgPoolMax: parseInt(process.env.PG_POOL_MAX ?? '5', 10),
 
     // API
@@ -16,6 +20,5 @@ export const env = {
 
     // Indexer tuning
     batchSize: parseInt(process.env.BATCH_SIZE ?? '25', 10),
-    concurrency: parseInt(process.env.CONCURRENCY ?? '2', 10),
     pollIntervalMs: parseInt(process.env.POLL_INTERVAL_MS ?? '10000', 10),
 } as const;
