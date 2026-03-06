@@ -6,7 +6,10 @@ export async function getScanProgress(network: NetworkId): Promise<ScanProgress>
         'SELECT network, last_block AS "lastBlock", updated_at AS "updatedAt" FROM scan_progress WHERE network = $1',
         [network],
     );
-    return result.rows[0] ?? { network, lastBlock: 0, updatedAt: new Date() };
+    const row = result.rows[0];
+    if (!row) return { network, lastBlock: 0, updatedAt: new Date() };
+    // PostgreSQL returns BIGINT as string — cast to number
+    return { ...row, lastBlock: Number(row.lastBlock) };
 }
 
 export async function updateScanProgress(network: NetworkId, lastBlock: number): Promise<void> {
@@ -56,7 +59,7 @@ export async function getEventsByOwner(network: NetworkId, owner: string): Promi
         spender: row.spender as string,
         owner: row.owner as string,
         allowance: row.allowance as string,
-        block: row.block as number,
+        block: Number(row.block),
         txHash: row.txHash as string,
     }));
 }
