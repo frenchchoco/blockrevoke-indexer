@@ -70,12 +70,12 @@ async function scanLoop(networkId: NetworkId, provider: JSONRpcProvider): Promis
 
             await updateScanProgress(networkId, to);
 
-            // Small delay between batches
-            await delay(100);
+            // Cooldown between batches to avoid rate-limiting the RPC
+            await delay(1000);
         } catch (err: unknown) {
             const msg = err instanceof Error ? err.message : String(err);
             logger.error(`[${networkId}] Scan loop error`, { error: msg });
-            await delay(5000); // Back off on error
+            await delay(15000); // 15s backoff on error
         }
     }
 

@@ -15,7 +15,7 @@ export const env = {
     mainnetRpcUrl: process.env.MAINNET_RPC_URL ?? 'https://mainnet.opnet.org',
 
     // Indexer tuning
-    batchSize: parseInt(process.env.BATCH_SIZE ?? '100', 10),
-    concurrency: parseInt(process.env.CONCURRENCY ?? '4', 10),
+    batchSize: parseInt(process.env.BATCH_SIZE ?? '25', 10),
+    concurrency: parseInt(process.env.CONCURRENCY ?? '2', 10),
     pollIntervalMs: parseInt(process.env.POLL_INTERVAL_MS ?? '10000', 10),
 } as const;
